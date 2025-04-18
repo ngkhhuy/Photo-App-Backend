@@ -2,6 +2,7 @@ import express from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { userRoute } from '~/routes/v1/userRoute'
 import { dashboardRoute } from '~/routes/v1/dashboardRoute'
+import { photoRoute } from '~/routes/v1/photoRoute'
 
 const Router = express.Router()
 
@@ -12,8 +13,11 @@ Router.get('/status', (req, res) => {
 
 /** User APIs */
 Router.use('/users', userRoute)
+Router.use('/photos', photoRoute)
 
 /** Dashboard APIs */
 Router.use('/dashboards', dashboardRoute)
+
+
 
 export const APIs_V1 = Router
