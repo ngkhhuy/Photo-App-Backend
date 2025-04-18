@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { corsOptions } from './config/corsOptions'
 import { APIs_V1 } from '~/routes/v1'
+import connectDB from '~/config/mongodb'
 import 'dotenv/config'
 
 const LOCAL_DEV_APP_PORT = process.env.LOCAL_DEV_APP_PORT
@@ -32,11 +33,13 @@ const START_SERVER = () => {
 
 (async () => {
   try {
+    console.log('Connecting to MongoDB...')
+    await connectDB()
+    
     console.log('Starting Server')
     START_SERVER()
-  } catch ( error) {
+  } catch (error) {
     console.error(error)
     process.exit(0)
-    
   }
-}) ()
+})()

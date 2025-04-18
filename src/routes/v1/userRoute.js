@@ -3,6 +3,10 @@ import { userController } from '~/controllers/userController'
 
 const Router = express.Router()
 
+// API register
+Router.route('/register')
+ .post(userController.register)
+
 // API login
 
 Router.route('/login')
