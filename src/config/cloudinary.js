@@ -19,7 +19,6 @@ const storage = new CloudinaryStorage({
     transformation: [{ width: 1000, crop: 'limit' }] // Resize ảnh
   }
 })
-ggg
 // Khởi tạo multer middlewareg
 const upload = multer({ storage: storage })
 
