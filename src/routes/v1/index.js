@@ -1,8 +1,8 @@
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { userRoute } from '~/routes/v1/userRoute'
-import { dashboardRoute } from '~/routes/v1/dashboardRoute'
 import { photoRoute } from '~/routes/v1/photoRoute'
+import { chatRoute } from '~/routes/v1/chatRoute'
 
 const Router = express.Router()
 
@@ -15,8 +15,10 @@ Router.get('/status', (req, res) => {
 Router.use('/users', userRoute)
 Router.use('/photos', photoRoute)
 
-/** Dashboard APIs */
-Router.use('/dashboards', dashboardRoute)
+/** Chat APIs */
+Router.use('/chats', chatRoute)
+
+
 
 
 

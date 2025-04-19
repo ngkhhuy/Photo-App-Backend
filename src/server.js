@@ -4,14 +4,22 @@ import cookieParser from 'cookie-parser'
 import { corsOptions } from './config/corsOptions'
 import { APIs_V1 } from '~/routes/v1'
 import connectDB from '~/config/mongodb'
+import { Server } from 'socket.io'
+import authSocket from '~/middlewares/authSocket'
+import chatSocket from '~/sockets/chatSocket'
+import http from 'http'
 import 'dotenv/config'
 
-const LOCAL_DEV_APP_PORT = process.env.LOCAL_DEV_APP_PORT
-const LOCAL_DEV_APP_HOST = process.env.LOCAL_DEV_APP_HOST
-const AUTHOR = process.env.AUTHOR
 
 const START_SERVER = () => {
   const app = express()
+  const server = http.createServer(app)
+  const io = new Server(server, {
+    cors: {
+      origin: '*',
+      methods: ['GET', 'POST']
+    }
+  })
 
   app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store')
@@ -19,15 +27,17 @@ const START_SERVER = () => {
   })
 
   app.use(cookieParser())
-
   app.use(cors(corsOptions))
-
   app.use(express.json())
-
   app.use('/v1', APIs_V1)
 
-  app.listen(LOCAL_DEV_APP_PORT, LOCAL_DEV_APP_HOST, () => {
-    console.log(`Local DEV: Hello ${AUTHOR}, Server is running at : ${LOCAL_DEV_APP_HOST}:${LOCAL_DEV_APP_PORT}`)
+  // Middleware socket cho xac thuc
+  io.use(authSocket)
+  // Khoi tao socket
+  chatSocket(io)
+
+  server.listen(process.env.LOCAL_DEV_APP_PORT, process.env.LOCAL_DEV_APP_HOST, () => {
+    console.log(`Local DEV: Hello Admin, Server is running at : ${process.env.LOCAL_DEV_APP_HOST}:${process.env.LOCAL_DEV_APP_PORT}`)
   })
 }
 
