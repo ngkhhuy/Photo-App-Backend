@@ -120,11 +120,24 @@ const toggleLike = async (req, res) => {
       })
     }
 
-    // Tăng số lượng like
+    // Check if user already liked
+    const userId = req.user.id
+    const hasLiked = photo.likedBy.some(id => id.toString() === userId)
+    if (hasLiked) {
+      // Unlike
+      photo.likedBy = photo.likedBy.filter(id => id.toString() !== userId)
+      photo.likes -= 1
+      await photo.save()
+      return res.status(StatusCodes.OK).json({
+        message: 'Photo unliked successfully',
+        likes: photo.likes
+      })
+    }
+    // Like
+    photo.likedBy.push(userId)
     photo.likes += 1
     await photo.save()
-
-    res.status(StatusCodes.OK).json({
+    return res.status(StatusCodes.OK).json({
       message: 'Photo liked successfully',
       likes: photo.likes
     })
