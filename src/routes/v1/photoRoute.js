@@ -13,14 +13,15 @@ Router.route('/upload')
 Router.route('/')
   .get(photoController.getAllPhotos)
 
+// Search photos
+Router.route('/search')
+  .get(photoController.searchPhotos)
+
 // Get, like, and delete single photo
 Router.route('/:id')
   .get(photoController.getPhotoById)
   .put(verifyToken, photoController.toggleLike)
   .delete(verifyToken, photoController.deletePhoto)
 
-// Search photos
-Router.route('/search')
-  .get(photoController.searchPhotos)
 
 export const photoRoute = Router
