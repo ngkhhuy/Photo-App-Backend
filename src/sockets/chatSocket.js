@@ -8,47 +8,65 @@ const chatSocket = (io) => {
 
     // Tham gia 1 cuoc tro chuyen
     socket.on('joinChat', (chatId) => {
-        socket.join(chatId)
-        console.log(`User ${socket.user.name} joined chat ${chatId}`)
+        console.log('User joining chat:', {
+            socketId: socket.id,
+            userId: socket.user,  // Có thể đây là undefined
+            chatId: chatId
+        });
+        
+        socket.join(chatId);
+        console.log(`User ${socket.user} joined chat ${chatId}`);
     })
     // Roi khoi cuoc tro chuyen
     socket.on('leaveChat', (chatId) => {
-        socket.leave(chatId)
-        console.log(`User ${socket.user.name} left chat ${chatId}`)
+        socket.leave(chatId);
+        console.log(`User ${socket.user.name} left chat ${chatId}`);
     })
 
     // Gui tin nhan
-    socket.on('sendMessage', async ({chatId, text}) => {
-        try {
-            // Kiem tra nguoi dung co trong cuoc tro chuyen khong
-            const chat = await Chat.findById(chatId)
-            if (!chat || !chat.participants.includes(socket.user.id)) {
-                socket.emit('error', { message: 'No permission to chat' })
-                return
-            }
-
-            // Tạo tin nhắn
-            const message = new Message({
-                chat: chatId,
-                sender: socket.user.id,
-                text,
-                readBy: [socket.user.id] 
-              })
-            await message.save()
-
-            // Cap nhat tin nhan cuoi cung cuoc tro chuyen
-            await Chat.findByIdAndUpdate(chatId, { lastMessage: message._id})
-
-            // Lay tin nhan kem thong tin nguoi gui
-            const populateMessage = await Message.findById(message._id)
-                .populate('sender', 'name email')
-
-            // Phat tin nhan cho tat ca nguoi dung
-            io.to(chatId).emit('message', populateMessage) 
-        } catch (error) {
-            console.error('Error sending message:', error)
-            socket.emit('error', { message: 'Error sending message' })
+    socket.on('sendMessage', async (data) => {
+        console.log('Received message data:', data);
+        console.log('User info:', socket.user);
+        
+        // Kiểm tra xem có user không
+        if (!socket.user) {
+            console.error('No user found on socket');
+            socket.emit('error', { message: 'User not authenticated' });
+            return;
         }
+        
+        try {
+            const { chatId, text } = data;
+            
+            // Nếu không có userId, không thể lưu tin nhắn
+            if (!socket.user) {
+              socket.emit('error', { message: 'User authentication failed' });
+              return;
+            }
+            
+            // Tạo tin nhắn mới
+            const newMessage = new Message({
+              sender: socket.user.id,      // Chỉ dùng ID
+              chat: chatId,
+              text: text,
+              readBy: [socket.user.id]     // Chỉ dùng ID
+            });
+            
+            await newMessage.save();
+            
+            // Cập nhật lastMessage cho chat
+            await Chat.findByIdAndUpdate(chatId, { lastMessage: newMessage._id });
+            
+            // Populate thông tin người gửi trước khi broadcast
+            const populatedMessage = await Message.findById(newMessage._id)
+              .populate('sender', 'name email');
+            
+            // Gửi tin nhắn cho tất cả trong phòng chat
+            io.to(chatId).emit('message', populatedMessage);
+          } catch (error) {
+            console.error('Error sending message:', error);
+            socket.emit('error', { message: 'Error sending message' });
+          }
     })
 
     // Thong bao nguoi dung dang nhap 
