@@ -29,6 +29,10 @@ const PhotoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  isPublic: {
+    type: Boolean,
+    default: true // Mặc định là công khai
   }
 }, { timestamps: true })
 
