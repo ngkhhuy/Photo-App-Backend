@@ -1,5 +1,6 @@
 import express from 'express'
 import { userController } from '~/controllers/userController'
+import path from 'path'
 
 const Router = express.Router()
 
@@ -21,5 +22,12 @@ Router.route('/logout')
 
 Router.route('/refresh_token')
   .put(userController.refreshToken)
+
+// Thêm routes mới
+Router.route('/forgot-password')
+  .post(userController.requestPasswordReset);
+
+Router.route('/reset-password')
+  .post(userController.resetPassword);
 
 export const userRoute = Router

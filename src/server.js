@@ -9,6 +9,7 @@ import authSocket from '~/middlewares/authSocket'
 import chatSocket from '~/sockets/chatSocket'
 import http from 'http'
 import 'dotenv/config'
+import path from 'path'
 
 
 const START_SERVER = () => {
@@ -32,6 +33,7 @@ const START_SERVER = () => {
     credentials: true
   }))
   app.use(express.json())
+  app.use(express.static(path.join(__dirname, '../public')))
   app.use('/v1', APIs_V1)
 
   // Middleware socket cho xac thuc
