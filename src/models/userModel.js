@@ -22,7 +22,9 @@ const UserSchema = new mongoose.Schema({
     region: {
         type: String,
         default: ''
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 }, { timestamps: true})
 
 // Ma hoa mat khau truoc khi luu vao database
