@@ -1,0 +1,10 @@
+# filepath: /home/khanh-huy/Documents/Photo-app/Photo-api/.dockerignore
+node_modules
+npm-debug.log
+yarn-error.log
+.env
+.git
+.gitignore
+Dockerfile
+.dockerignore
+README.md
