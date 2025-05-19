@@ -1,7 +1,7 @@
 import express from 'express'
 import { photoController } from '~/controllers/photoController'
 import { verifyToken } from '~/middlewares/authMiddleware'
-import { upload } from '~/config/cloudinary'
+import { upload } from '~/config/cloudinary' // Import named export
 
 const Router = express.Router()
 
