@@ -1,4 +1,3 @@
-// src/middleware/authMiddleware.js
 import { StatusCodes } from 'http-status-codes'
 import { JwtProvider } from '~/providers/JwtProvider'
 import 'dotenv/config'
