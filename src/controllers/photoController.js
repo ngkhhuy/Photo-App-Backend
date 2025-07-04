@@ -310,7 +310,6 @@ const updatePhotoVisibility = async (req, res) => {
   }
 };
 
-// Thêm hàm mới
 const getMyPhotos = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -342,7 +341,6 @@ const getMyPhotos = async (req, res) => {
   }
 };
 
-// Thêm vào export object
 export const photoController = {
   uploadPhoto,
   getAllPhotos,
@@ -350,6 +348,6 @@ export const photoController = {
   toggleLike,
   deletePhoto,
   searchPhotos,
-  updatePhotoVisibility, // Thêm controller mới
+  updatePhotoVisibility,
   getMyPhotos
 }
