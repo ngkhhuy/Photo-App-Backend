@@ -32,11 +32,11 @@ const PhotoSchema = new mongoose.Schema({
   },
   isPublic: {
     type: Boolean,
-    default: true // Mặc định là công khai
+    default: true
   }
 }, { timestamps: true })
 
-// Index để tìm kiếm hiệu quả
+
 PhotoSchema.index({ description: 'text', keywords: 'text' })
 
 const Photo = mongoose.model('Photo', PhotoSchema)
