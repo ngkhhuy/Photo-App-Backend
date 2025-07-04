@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import User from '~/models/userModel'   
 import 'dotenv/config'
 
-// Middleware authSocket.js có thể đang gặp vấn đề
+
 const authSocket = async (socket, next) => {
   try {
     const token = socket.handshake.auth?.token;
@@ -18,7 +18,6 @@ const authSocket = async (socket, next) => {
     const user = await User.findById(decoded.id);
     if (!user) return next(new Error("User not found"));
 
-    // Lưu thông tin đầy đủ
     socket.user = {
       id: user._id,
       name: user.name,
