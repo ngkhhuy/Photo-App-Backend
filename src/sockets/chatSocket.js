@@ -10,7 +10,7 @@ const chatSocket = (io) => {
     socket.on('joinChat', (chatId) => {
         console.log('User joining chat:', {
             socketId: socket.id,
-            userId: socket.user,  // Có thể đây là undefined
+            userId: socket.user, 
             chatId: chatId
         });
         
@@ -46,10 +46,10 @@ const chatSocket = (io) => {
             
             // Tạo tin nhắn mới
             const newMessage = new Message({
-              sender: socket.user.id,      // Chỉ dùng ID
+              sender: socket.user.id,    
               chat: chatId,
               text: text,
-              readBy: [socket.user.id]     // Chỉ dùng ID
+              readBy: [socket.user.id] 
             });
             
             await newMessage.save();
