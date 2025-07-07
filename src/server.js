@@ -29,7 +29,7 @@ const START_SERVER = () => {
 
   app.use(cookieParser())
   app.use(cors({
-    origin: '*', // Cho phép tất cả origins trong quá trình phát triển mobile
+    origin: '*',
     credentials: true
   }))
   app.use(express.json())
