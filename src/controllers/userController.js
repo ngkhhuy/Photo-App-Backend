@@ -17,8 +17,7 @@ const REFRESH_TOKEN_SECRET_SIGNATURE = process.env.REFRESH_TOKEN_SECRET_SIGNATUR
 const register = async (req, res) => {
   try {
     const { email, password, name} = req.body
-
-    // Kiem tra xem cac muc yeu cau da duoc cung cap chua
+   
     if (!email || !password || !name) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         messages: 'Please provide email, password, and name'
@@ -302,8 +301,8 @@ const resetPassword = async (req, res) => {
       });
     }
     
-    // SỬA Ở ĐÂY: Không hash thủ công, để middleware xử lý
-    user.password = password; // Chỉ gán mật khẩu mới
+    // Không hash thủ công, để middleware xử lý
+    user.password = password; 
     
     // Xóa thông tin reset password
     user.resetPasswordToken = undefined;
