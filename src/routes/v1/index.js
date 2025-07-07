@@ -11,11 +11,11 @@ Router.get('/status', (req, res) => {
   res.status(StatusCodes.OK).json({ message: 'APIs V1 are ready to use.' })
 })
 
-/** User APIs */
+// User APIs 
 Router.use('/users', userRoute)
 Router.use('/photos', photoRoute)
 
-/** Chat APIs */
+// Chat APIs
 Router.use('/chats', chatRoute)
 
 
