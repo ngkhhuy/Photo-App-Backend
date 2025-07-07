@@ -1,11 +1,11 @@
 import express from 'express'
 import { photoController } from '~/controllers/photoController'
 import { verifyToken } from '~/middlewares/authMiddleware'
-import { upload } from '~/config/cloudinary' // Import named export
+import { upload } from '~/config/cloudinary'
 
 const Router = express.Router()
 
-// Upload photo - yêu cầu đăng nhập và upload single file
+// Upload photo 
 Router.route('/upload').post(verifyToken, upload.single('image'), photoController.uploadPhoto)
 
 // Get all photos
@@ -24,7 +24,7 @@ Router.route('/:id')
   .put(verifyToken, photoController.toggleLike)
   .delete(verifyToken, photoController.deletePhoto)
 
-// Thêm endpoint mới để cập nhật visibility
+//  cập nhật visibility
 Router.route('/:id/visibility')
   .patch(verifyToken, photoController.updatePhotoVisibility)
 
