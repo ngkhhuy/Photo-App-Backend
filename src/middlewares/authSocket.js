@@ -14,7 +14,7 @@ const authSocket = async (socket, next) => {
     // Xác thực token
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_SIGNATURE);
     
-    // Thiết lập thông tin user - có thể đang bị lỗi ở đây
+    // Thiết lập thông tin user 
     const user = await User.findById(decoded.id);
     if (!user) return next(new Error("User not found"));
 
