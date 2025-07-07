@@ -17,15 +17,14 @@ RUN npm install
 # Sao chép toàn bộ mã nguồn của ứng dụng vào thư mục làm việc trong container
 COPY . .
 
-# Build mã nguồn (nếu bạn có bước build với Babel như trong package.json)
+# Build mã nguồn 
 RUN npm run build
 
 # 2. (Optional but recommended) Prune devDependencies after build to reduce image size
 RUN npm prune --production
 
 
-# Expose port mà ứng dụng của bạn sẽ chạy (ví dụ: 8017 hoặc giá trị từ .env)
-# Hãy đảm bảo giá trị này khớp với LOCAL_DEV_APP_PORT của bạn
+# Expose port mà ứng dụng sẽ chạy (ở đây là các giá trị từ .env)
 EXPOSE ${PORT}
 
 # Lệnh để chạy ứng dụng khi container khởi động
