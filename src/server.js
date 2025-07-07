@@ -58,5 +58,3 @@ const START_SERVER = () => {
     process.exit(0)
   }
 })()
-
-//demo thoi
