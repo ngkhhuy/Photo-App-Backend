@@ -23,7 +23,7 @@ Router.route('/logout')
 Router.route('/refresh_token')
   .put(userController.refreshToken)
 
-// Thêm routes mới
+// API reset password
 Router.route('/forgot-password')
   .post(userController.requestPasswordReset);
 
