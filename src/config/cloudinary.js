@@ -14,10 +14,10 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'photo-app', // Thư mục lưu trữ trên Cloudinary
+    folder: 'photo-app',
     allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
     transformation: [
-      { width: 1000, crop: 'limit' }, // Resize ảnh
+      { width: 1000, crop: 'limit' }, 
       // Thêm watermark
       {
         overlay: {
@@ -26,17 +26,16 @@ const storage = new CloudinaryStorage({
           font_weight: "bold",
           text: "by flickshare"
         },
-        color: "#FFFFFF", // Màu chữ trắng
-        opacity: 80,      // Độ trong suốt 80%
-        gravity: "south_east", // Góc phải dưới
-        y: 10,  // Cách lề dưới 10px
-        x: 10   // Cách lề phải 10px
+        color: "#FFFFFF", 
+        opacity: 80,     
+        gravity: "south_east", 
+        y: 10,  
+        x: 10   
       }
     ]
   }
 })
 
-// Khởi tạo multer middleware
 const upload = multer({ storage: storage })
 
 export { cloudinary, upload }
