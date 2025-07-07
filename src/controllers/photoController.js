@@ -5,7 +5,6 @@ import { cloudinary } from '~/config/cloudinary'
 // Upload ảnh lên Cloudinary và lưu metadata vào MongoDB
 const uploadPhoto = async (req, res) => {
   try {
-    // Multer đã upload ảnh lên Cloudinary và thêm file info vào req.file
     if (!req.file) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'No image file provided'
@@ -36,12 +35,12 @@ const uploadPhoto = async (req, res) => {
 
     // Tạo bản ghi photo mới
     const newPhoto = new Photo({
-      imageUrl: req.file.path, // URL của ảnh từ Cloudinary
-      publicId: req.file.filename, // Hoặc lấy public_id từ req.file tùy theo cấu hình
+      imageUrl: req.file.path, 
+      publicId: req.file.filename, 
       description,
       keywords: keywordsArray,
       user: userId,
-      isPublic: isPublic // Thêm trường isPublic
+      isPublic: isPublic 
     })
 
     // Lưu vào database
@@ -98,7 +97,7 @@ const getAllPhotos = async (req, res) => {
   }
 };
 
-// Cập nhật getPhotoById
+// Ham getPhotoById
 const getPhotoById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -215,7 +214,7 @@ const deletePhoto = async (req, res) => {
   }
 }
 
-// Cập nhật searchPhotos
+//searchPhotos
 const searchPhotos = async (req, res) => {
   try {
     const { query } = req.query;
@@ -226,10 +225,10 @@ const searchPhotos = async (req, res) => {
       });
     }
 
-    // Lấy userId từ token nếu có
+    
     const userId = req.user?.id;
 
-    // Xây dựng query tìm kiếm
+    //query tìm kiếm
     const searchQuery = {
       $and: [
         {
@@ -265,7 +264,6 @@ const updatePhotoVisibility = async (req, res) => {
     const photoId = req.params.id;
     const { isPublic } = req.body;
     
-    // Kiểm tra isPublic có phải là boolean không
     if (typeof isPublic !== 'boolean' && isPublic !== 'true' && isPublic !== 'false') {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: 'isPublic must be a boolean value'
@@ -280,7 +278,7 @@ const updatePhotoVisibility = async (req, res) => {
       });
     }
     
-    // Chỉ cho phép chủ sở hữu ảnh thay đổi trạng thái
+    // chủ sở hữu ảnh thay đổi trạng thái
     if (photo.user.toString() !== req.user.id) {
       return res.status(StatusCodes.FORBIDDEN).json({
         message: 'You do not have permission to update this photo'
