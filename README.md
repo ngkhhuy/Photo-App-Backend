@@ -206,4 +206,4 @@ Photo-App-Backend/
 Contributions are welcome! Please open issues or pull requests.
 
 ## License
-MIT 2025 ngkhhuy
+2025 by ngkhhuy
